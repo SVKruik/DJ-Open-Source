@@ -1,13 +1,7 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script lang="ts" setup>
 import HomeView from './views/HomeView.vue';
 
-export default defineComponent({
-    name: "App",
-    components: {
-        HomeView
-    }
-});
+
 </script>
 
 <template>
