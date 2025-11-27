@@ -1,0 +1,6 @@
+node_modules
+dist
+frontendDist
+package-lock.json
+.env
+.DS_Store

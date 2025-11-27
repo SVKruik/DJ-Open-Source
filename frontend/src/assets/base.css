@@ -1,0 +1,151 @@
+:root {
+    --main: #0d1116;
+    --font: #ededed;
+    --font-light: #b1b1b1;
+    --fill: #161b22;
+    --fill-light: #2a323e;
+    --border: #30363d;
+    --link: #2f81f7;
+    --border-radius-low: 5px;
+}
+
+body {
+    background: var(--main);
+    transition: 0.5s;
+    font-family: "Inter Tight", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+/* Custom Classes */
+.text-shadow {
+    -moz-text-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+    -webkit-text-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.click-item {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.no-select {
+    user-select: none;
+}
+
+.visible {
+    opacity: 1 !important;
+}
+
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.disabled-text {
+    color: var(--font-light);
+    opacity: 0.3;
+}
+
+.light-text {
+    color: var(--font-light);
+}
+
+.small-text {
+    font-size: 14px;
+}
+
+/* HTML Tags */
+a,
+button,
+select,
+input,
+a *,
+button * {
+    cursor: pointer;
+}
+
+*,
+i {
+    color: var(--font);
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: var(--link);
+}
+
+a,
+p,
+button {
+    font-size: 16px;
+}
+
+ul,
+ol {
+    list-style-type: none;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+menu {
+    all: unset;
+}
+
+select {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background-color: transparent;
+    outline: none;
+    border: none;
+}
+
+input,
+button {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-weight: 500;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #ACACAC;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ACACAC;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ACACAC;
+}
