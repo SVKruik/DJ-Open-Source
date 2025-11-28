@@ -2,13 +2,17 @@ import librosa
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+import subprocess
 
-sample_path = "/Users/mikkelobro/DJ-Open-Source/backend/MJ_song.mp3"
+
+sample_path = "MJ_song.mp3"
 sample, sample_rate = librosa.load(sample_path, sr=None)
 frame_size = 2048
-hop_size = 1024
+hop_size = frame_size // 2
 window = np.hamming(frame_size)
 
+min_db = -20
+max_db = 0
 spectra_norm = []
 
 for i in range(0, len(sample) - frame_size, hop_size):
@@ -22,8 +26,8 @@ for i in range(0, len(sample) - frame_size, hop_size):
     
     magnitudes = np.abs(fft_vals) 
     magnitudes = 20 * np.log10(magnitudes+ 1e-7)
-    magnitudes = np.clip(magnitudes, -80, 0)
-    magnitudes = (magnitudes + 80) / 80
+    magnitudes = np.clip(magnitudes, min_db, max_db)
+    magnitudes = (magnitudes - min_db) / (max_db - min_db)
 
     
     # Store
@@ -31,34 +35,30 @@ for i in range(0, len(sample) - frame_size, hop_size):
 
 spectra_norm = np.array(spectra_norm)
 
-# Putting data into groups of 32 bars per time step
+# Putting data into groups of 32 bars per time step using log spacing
 
 num_bars = 32
-num_bins = len(spectra_norm[0])  
-bins_per_bar = num_bins // num_bars
-remainder   = num_bins % num_bars
+num_bins = len(spectra_norm[0])
+log_power = 3.0 
 
-bar_frames = []  # this will become [ [32 bars], [32 bars], ..., ]
+edges = ((np.linspace(0, 1, num_bars + 1)) ** log_power) * num_bins
+edges = edges.astype(int)
 
-for spectrum in spectra_norm:            # outer loop: over time frames
+bar_frames = []
+
+for spectrum in spectra_norm:
     bars = []
-    start_bin = 0
+    for b in range(num_bars):
+        start_bin = edges[b]
+        end_bin   = edges[b + 1]
+        group     = spectrum[start_bin:end_bin]
 
-    for b in range(num_bars):         # inner loop: over bars
-        end_bin = start_bin + bins_per_bar
-
-        # put any leftover bins into the last bar
-        if b == num_bars - 1:
-            end_bin += remainder
-
-        # group of FFT bins for this bar
-        group = spectrum[start_bin:end_bin]
-
-        # average
-        bar_value = np.mean(group)
+        if len(group) == 0:
+            bar_value = 0.0
+        else:
+            bar_value = np.mean(group)
 
         bars.append(bar_value)
-        start_bin = end_bin
 
     bar_frames.append(bars)
 
@@ -68,9 +68,19 @@ bar_frames = np.array(bar_frames)
 
 num_frames, num_bars = bar_frames.shape
 
+alpha = 0.5
+
+smoothed = np.copy(bar_frames)
+
+for t in range(1, num_frames):
+    smoothed[t] = alpha * smoothed[t-1] + (1 - alpha) * bar_frames[t]
+
+bar_frames = smoothed
+
 fig, ax = plt.subplots()
 ax.set_ylim(0, 1)
 ax.set_xlim(0, num_bars)
+ax.axis("off")
 
 bars = ax.bar(range(num_bars), bar_frames[0])
 
@@ -90,3 +100,20 @@ ani = animation.FuncAnimation(
 
 fps = sample_rate / hop_size
 ani.save("visualizer_no_audio.mp4", fps=fps, writer="ffmpeg")
+
+input_video = "visualizer_no_audio.mp4"
+input_audio = sample_path
+output_video = "visualizer_with_audio.mp4"
+
+cmd = [
+    "ffmpeg",
+    "-y",                    # overwrite output if exists
+    "-i", input_video,
+    "-i", input_audio,
+    "-c:v", "copy",          # no re-encode of video
+    "-c:a", "aac",           # MP4 requires AAC audio
+    "-shortest",             # stop when shortest stream ends
+    output_video
+]
+
+subprocess.run(cmd)
