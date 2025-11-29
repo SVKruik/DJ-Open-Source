@@ -5,7 +5,7 @@ import matplotlib.animation as animation
 import subprocess
 
 # values for fft
-sample_path         = "MJ_song.mp3"
+sample_path         = "vex_oh.mp3"
 sample, sample_rate = librosa.load(sample_path, sr=None)
 frame_size          = 2048
 hop_size            = frame_size // 2
@@ -40,9 +40,9 @@ spectra_norm = np.array(spectra_norm)
 
 # Putting data into bar groups per time step using log spacing
 
-num_bars    = 64
+num_bars    = 32
 num_bins    = len(spectra_norm[0])
-power       = 3.0 
+power       = 3.0 #used for logarithmic spacing. larger make more low freq bars
 
 edges = ((np.linspace(0, 1, num_bars + 1)) ** power) * num_bins
 edges = edges.astype(int)
@@ -110,6 +110,7 @@ output_video = "visualizer_with_audio.mp4"
 
 cmd = [
     "ffmpeg",
+    "-loglevel", "quiet",
     "-y",                    # overwrite output if exists
     "-i", input_video,
     "-i", input_audio,
@@ -120,3 +121,5 @@ cmd = [
 ]
 
 subprocess.run(cmd)
+
+print("done")
