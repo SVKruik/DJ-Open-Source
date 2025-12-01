@@ -4,3 +4,5 @@ frontendDist
 package-lock.json
 .env
 .DS_Store
+*.gif
+*.mp4
