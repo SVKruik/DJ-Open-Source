@@ -1,5 +1,4 @@
 import time
-from typing import Optional
 import matplotlib
 matplotlib.use("Agg")
 
@@ -10,18 +9,17 @@ import matplotlib.animation as animation
 import subprocess
 from matplotlib.animation import FFMpegWriter
 
-def visualize_audio(overwrite_name: Optional[str] = None) -> str:
+def visualize_audio(file_name: str) -> str:
     start_time = time.time()
     
-    # values for fft
-    base_path = "backend/"
-    sample_path         = base_path + (overwrite_name if overwrite_name else "audio_file.mp3")
-    sample, sample_rate = librosa.load(sample_path, sr=None)
+    # values for fft=
+    log_file_name = file_name.replace("backend/uploads/", "")
+    sample, sample_rate = librosa.load(file_name, sr=None)
     frame_size          = 2048
     hop_size            = frame_size // 2
     window              = hamming(frame_size)
     
-    print(f"Received audio file: {sample_path}")
+    print(f"[{log_file_name}] Received audio file. Sample rate: {sample_rate}, total samples: {len(sample)}")
 
     # values for db conversion and normalization
     min_db          = -20
@@ -112,13 +110,14 @@ def visualize_audio(overwrite_name: Optional[str] = None) -> str:
         blit     = True
     )
 
-    ani.save(base_path + "visualizer_no_audio.mp4", writer=FFMpegWriter(fps=sample_rate / hop_size))
+    video_file = file_name.replace(".mp3", "_visualizer_no_audio.mp4")
+    print(f"[{log_file_name}] Saving video...")
+    ani.save(video_file, writer=FFMpegWriter(fps=sample_rate / hop_size))
 
-    input_video  = base_path + "visualizer_no_audio.mp4"
-    input_audio  = sample_path
-    output_video = base_path + "visualizer_with_audio.mp4"
+    input_video  = video_file
+    input_audio  = file_name
+    output_video = video_file.replace("_no_audio", "_with_audio")
 
-    print("Merging audio and video...")
 
     cmd = [
         "ffmpeg",
@@ -132,11 +131,12 @@ def visualize_audio(overwrite_name: Optional[str] = None) -> str:
         output_video
     ]
 
+    print(f"[{log_file_name}] Merging audio and video...")
     subprocess.run(cmd)
     
     end_time = time.time()
-    print(f"Generated video file: {output_video}")
-    print(f"Time taken: {end_time - start_time:.2f} seconds")
+    print(f"[{log_file_name}] Generated video file: {output_video}")
+    print(f"[{log_file_name}] Time taken: {end_time - start_time:.2f} seconds")
     
     return output_video
 
