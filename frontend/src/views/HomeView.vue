@@ -45,7 +45,7 @@ async function visualize(): Promise<void> {
         // Send payload
         const formData = new FormData();
         formData.append("audio", file.value);
-        const response = await fetch("http://localhost:9102/visualize", {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/visualize`, {
             method: "POST",
             body: formData,
         });

@@ -7,3 +7,5 @@ package-lock.json
 *.gif
 *.mp4
 backend/*.mp3
+__pycache__
+.venv
