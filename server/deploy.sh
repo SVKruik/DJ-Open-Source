@@ -1,5 +1,5 @@
 #!/bin/sh
-export HOME=/home/svkruik
+export HOME=/home/SVKruik
 
 # Git
 cd ..
@@ -8,7 +8,7 @@ git reset --hard
 git pull
 echo "Git setup complete"
 
-# Hosting - oss.stefankruik.com
+# Hosting - djos.stefankruik.com
 cd frontend
 npm install
 npm run build

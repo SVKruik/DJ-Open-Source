@@ -1,6 +1,6 @@
 cd ..
 
-# Hosting - oss.stefankruik.com
+# Hosting - djos.stefankruik.com
 cd frontend
 npm install
 npm run build
@@ -17,9 +17,7 @@ if [ -d "dist" ]; then
 
     cd ../frontend
     rm -rf dist
-    echo "Cleanup complete"
-
-    echo "Deployment complete. Reloading server."
+    echo "Cleanup complete. Ready to serve."
 else
     echo "Deployment failed. Dist directory missing."
     exit 1
