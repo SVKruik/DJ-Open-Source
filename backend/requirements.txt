@@ -9,7 +9,7 @@ cycler==0.12.1
 decorator==5.2.1
 Flask==3.1.2
 flask-cors==6.0.1
-fonttools==4.60.1
+fonttools==4.61.0
 idna==3.11
 importlib_metadata==8.7.0
 importlib_resources==6.5.2
