@@ -50,3 +50,5 @@ To make the website accessible during the demo, it is hosted on a privately owne
 When both components are running, a Nginx reverse proxy binds the two localhost ports to our domain.
 
 You can view the website when it is active at [djos.stefankruik.com](https://djos.stefankruik.com/). If it is not on, you will see a Cloudflare error page.
+
+> WARNING: Not all browsers allow playing of the video's. It might give you a permission error after uploading. Check your browser permissions and policies if you get this error.
