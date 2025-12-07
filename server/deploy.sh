@@ -27,8 +27,7 @@ if [ -d "dist" ]; then
     rm -rf dist
     echo "Cleanup complete"
 
-    echo "Deployment complete. Reloading server."
-    sudo systemctl restart dj-open-source.service
+    echo "Deployment complete. Ready to start."
 else
     echo "Deployment failed. Dist directory missing."
     exit 1

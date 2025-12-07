@@ -9,7 +9,7 @@ Made by:
 
 Below you can find a detailed description of each of the components at work.
 
-#### Frontend
+### Frontend
 
 The frontend is a modern Vue 3 website that connects the user input to the backend logic.
 
@@ -23,7 +23,7 @@ It has the option to upload and convert mp3 files, which are sent to the backend
 
 Finally, it also keeps track of your playback history so that you can view and download your previous submissions.
 
-#### Backend
+### Backend
 
 The backend is a Flask API with an endpoint the frontend uses to communicate the files.
 
@@ -43,7 +43,9 @@ The frequencies are categories into 32 bars of different frequency range. The fr
 
 A bart chart is drawn an updated for each time frame. The animation gets exported into a silent mp4 where it finally gets combined with the uploaded mp3 file to create the final audio visualization as an mp4 file. This is sent back to the frontend where it is played.
 
-#### Hosting
+### Hosting
+
+> WARNING: Not all browsers allow playing of the video's. It might give you a permission error after uploading. Check your browser permissions and policies if you get this error.
 
 To make the website accessible during the demo, it is hosted on a privately owned server.
 
@@ -51,4 +53,13 @@ When both components are running, a Nginx reverse proxy binds the two localhost 
 
 You can view the website when it is active at [djos.stefankruik.com](https://djos.stefankruik.com/). If it is not on, you will see a Cloudflare error page.
 
-> WARNING: Not all browsers allow playing of the video's. It might give you a permission error after uploading. Check your browser permissions and policies if you get this error.
+### Testing Locally
+
+You can also run the app on your own computer.
+
+Start by creating `.env` files in the `frontend` and `server` directories with the help of the provided `.env.example` files. You can just copy the contents of the example file to your `.env` file.
+
+- Frontend: You must have Node.js installed. Then to start, run `server/deploy.sh` and `scripts/prod_frontend.sh` in this order and you are ready.
+- Backend: You must have Python version 3.9.6 installed and a working venv built with the `requirements.txt`. Then to start, `run scripts/prod_backend.sh` and you ready.
+
+Visiting [localhost:9101](http://localhost:9101) should give you the website.

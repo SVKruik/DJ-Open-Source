@@ -21,7 +21,7 @@ def visualize():
     # Get the audio file from the formData request
     audio_file = request.files.get("audio")
     ticket = ''.join(random.choices(string.ascii_uppercase + string.digits, k=4))
-    file_name = f"backend/uploads/{ticket}_{audio_file.filename}"
+    file_name = f"uploads/{ticket}_{audio_file.filename}"
     
     # Save and process the audio file
     audio_file.save(file_name)
@@ -32,4 +32,5 @@ def visualize():
     return send_file(video_file, mimetype="video/mp4")
 
 # Start
-app.run(host="localhost", port=9102, debug=True)
+if __name__ == "__main__":
+    app.run(host="localhost", port=9102, debug=True)
