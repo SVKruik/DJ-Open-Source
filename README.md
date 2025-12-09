@@ -7,6 +7,8 @@ Made by:
 - Mikkel Oebro, made the logic for converting an audio file to a mp4 visualization.
 - Stefan Kruik, responsible for the frontend and backend API. Also hosts the website.
 
+<img width="450" height="400" alt="Screenshot 2025-12-09 at 16 13 46" src="https://github.com/user-attachments/assets/5c9e10d7-59bc-422b-b1a4-644727292c38" />
+
 Below you can find a detailed description of each of the components at work.
 
 ### Frontend
